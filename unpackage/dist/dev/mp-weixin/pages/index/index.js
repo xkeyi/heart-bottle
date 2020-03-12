@@ -142,7 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var bottle = function bottle() {return __webpack_require__.e(/*! import() | components/bottle */ "components/bottle").then(__webpack_require__.bind(null, /*! @/components/bottle.vue */ 37));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var bottle = function bottle() {return __webpack_require__.e(/*! import() | components/bottle */ "components/bottle").then(__webpack_require__.bind(null, /*! @/components/bottle.vue */ 23));};var _default =
 
 
 
@@ -181,6 +181,7 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
+      hackReset: true,
       backgroundColor: '#fbb1be',
       showBottles: false,
       gender: null,
@@ -210,17 +211,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     changeGender: function changeGender() {var _this = this;
-      var gender = this.gender;
+      this.hackReset = false;
 
-      // 清空数据
-      this.gender = null;
-      setTimeout(function () {
-        if (gender == 'boy') {
-          _this.gender = 'gril';
-        } else {
-          _this.gender = 'boy';
-        }
-      }, 10);
+      if (this.gender == 'boy') {
+        this.gender = 'gril';
+      } else {
+        this.gender = 'boy';
+      }
+
+      this.$nextTick(function () {
+        // 重载组件
+        _this.hackReset = true;
+      });
     },
     handleGender: function handleGender(type) {
       this.gender = type;
@@ -232,13 +234,11 @@ __webpack_require__.r(__webpack_exports__);
         provider: 'weixin',
         scene: "WXSceneSession",
         type: 5,
-        imageUrl: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png',
-        title: '欢迎体验uniapp',
+        title: '快来填满你的那个 Ta 吧！',
         miniProgram: {
           id: 'gh_abcdefg',
-          path: 'pages/index/index',
-          type: 0,
-          webUrl: 'http://uniapp.dcloud.io' },
+          path: '/pages/index/index',
+          type: 0 },
 
         success: function success(ret) {
           console.log(JSON.stringify(ret));
@@ -251,8 +251,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(res.target);
     }
     return {
-      title: '自定义分享标题',
-      path: '/pages/test/test?id=123' };
+      title: '快来填满你的那个 Ta 吧！',
+      path: '/pages/index/index' };
 
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

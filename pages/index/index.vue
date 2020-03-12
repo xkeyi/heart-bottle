@@ -6,7 +6,7 @@
       <view class="bollte-wrap">
         <view v-for="(item, index) in heartBottles" :key="index">
           <view class="bottle-item">
-            <bottle></bottle>
+            <bottle v-if="hackReset"></bottle>
             <text class="text-info">{{item}}</text>
           </view>
         </view>
@@ -37,6 +37,7 @@
     },
 		data() {
 			return {
+        hackReset: true,
 				backgroundColor: '#fbb1be',
         showBottles: false,
         gender: null,
@@ -66,17 +67,18 @@
 		},
 		methods: {
       changeGender() {
-        let gender = this.gender
+        this.hackReset = false
+
+        if (this.gender == 'boy') {
+          this.gender = 'gril'
+        } else {
+          this.gender = 'boy'
+        }
         
-        // 清空数据
-        this.gender = null
-        setTimeout(() => {
-          if (gender == 'boy') {
-            this.gender = 'gril'
-          } else {
-            this.gender = 'boy'
-          }
-        }, 10)
+        this.$nextTick(() => {
+          // 重载组件
+          this.hackReset = true
+        })
       },
       handleGender(type) {
         this.gender = type
@@ -88,13 +90,11 @@
             provider: 'weixin',
             scene: "WXSceneSession",
             type: 5,
-            imageUrl: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png',
-            title: '欢迎体验uniapp',
+            title: '快来填满你的那个 Ta 吧！',
             miniProgram: {
                 id: 'gh_abcdefg',
-                path: 'pages/index/index',
+                path: '/pages/index/index',
                 type: 0,
-                webUrl: 'http://uniapp.dcloud.io'
             },
             success: ret => {
                 console.log(JSON.stringify(ret))
@@ -107,8 +107,8 @@
         console.log(res.target)
       }
       return {
-        title: '自定义分享标题',
-        path: '/pages/test/test?id=123'
+        title: '快来填满你的那个 Ta 吧！',
+        path: '/pages/index/index'
       }
     }
 	}
